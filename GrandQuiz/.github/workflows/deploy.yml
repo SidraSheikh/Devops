@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+     -main
+
+permission:
+  contents: write
+
+jobs:
+  Deploy:
+    run-on: ubantu-@latest
+
+steps:
+  use: checkout Repostitory
+  run: actions/repository@v3
+
+  use: install 
+  run: actions/
+   with: 
+   - node-version: 18
+
+   use: run 
+   run: npm run 
+
+   use: run build
+   run: npm run build
+
+   use: Deploy file
+   run: peaceiris-gh-pages@v3
+
+  secret-token{{}}
+  build
