@@ -5,28 +5,23 @@ on:
 
 permission:
   contents: write
-
 jobs:
-  Deploy:
-    run-on: ubantu-latest
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-    - uses: checkout Repostitory
-    - name: actions/repository@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-  use: install 
-  run: actions/
-   with: 
-   - node-version: 18
-
-   use: run 
-   run: npm run 
-
-   use: run build
-   run: npm run build
-
-   use: Deploy file
-   run: peaceiris-gh-pages@v3
-
-  secret-token{{}}
-  build
+      - run: npm run
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
